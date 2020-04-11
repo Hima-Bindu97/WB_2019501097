@@ -1,0 +1,16 @@
+.success,.warning,.error {
+    font-family:'Courier New', Courier, monospace;
+    font-size:10px;
+    font-weight:bold;
+    border: 1px black;
+    padding:10px;
+    margin:10px; }
+  
+  .success {
+    background-color:green; }
+  
+  .warning {
+    background-color: orange; }
+  
+  .error {
+    background-color: red; }
