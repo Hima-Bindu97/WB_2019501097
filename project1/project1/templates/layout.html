@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Webpage</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body{
+            background-color: gray;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="class">
+            <h1>{% block heading %}{% endblock %}</h1>
+        </div>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

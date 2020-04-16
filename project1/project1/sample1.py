@@ -6,9 +6,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import Flask,render_template,request
 
+
 app = Flask(__name__)
 
-# Check for environment variable
+# # Check for environment variable
 # if not os.getenv("DATABASE_URL"):
 #     raise RuntimeError("DATABASE_URL is not set")
 
@@ -24,9 +25,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-        return render_template("registration.html")
+    return render_template("registration.html")
 
-@app.route("/form",methods=["POST","GET"])
+@app.route('/form',methods=["POST","GET"])
 def print():
-        Name=request.form.get("Name")
-        return render_template("form.html",name=Name)
+    if request.method=='POST':
+       Name=request.form
+       return render_template("form.html",Name=Name)
+    else:
+        return render_template("registration.html")
