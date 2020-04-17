@@ -29,4 +29,5 @@ def index():
 @app.route("/form",methods=["POST","GET"])
 def print():
         Name=request.form.get("Name")
-        return render_template("form.html",name=Name)
+        email=request.form.get("email")
+        return render_template("form.html",Name=Name,email=email)
