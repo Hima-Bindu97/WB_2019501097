@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Admin</h1><br>
+        <table border = 1>
+            <th>{{ "Name" }}</th>
+            <th>{{ "email" }}</th>
+            <th>{{ "password" }}</th>
+            <th>{{"creationtimestamp"}}</th>
+            {% for i in admin %}
+            <tr>
+                <td> {{ i.Name }}</td>
+                <td> {{ i.email }}</td>
+                <td> {{ i.password }}</td>
+                <td> {{ i.creationtimestamp }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>

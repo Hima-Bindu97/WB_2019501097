@@ -7,7 +7,7 @@
 {% block body %}
     <h1>Creating Registration page</h1>
     <div class="row">
-    <form action="/form" method="post">
+    <form action="{{url_for('form')}}" method="post">
         <label for="Name"><b>Name</b></label>
         <input type="text" placeholder="enter name"  Name="Name" required>
         <label for="password"><b>password</b></label>
@@ -30,5 +30,20 @@
             <input type="date" id="birthday" name="birthday" required>
         <button class="button" type="submit">submit</button>
     </form>
+    {% if variable1 %}
+        <div class ="row" style="text-align: center;">
+        <div class="alert-alert-success.alert-dismissibe">
+        {{variable1}}
+        </div>
+        </div>
+        {% endif %}
+        {% if variable %}
+        <div class ="row" style="text-align: center;">
+        <div class="alert-alert-danger.alert-dismissibe">
+        {{variable}}
+        </div>
+        </div>
+        {% endif %}
+    </div>
     </div>
 {% endblock %}
