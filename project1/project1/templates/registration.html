@@ -1,0 +1,34 @@
+{% extends "layout.html"%}
+
+{% block heading %} 
+    Registration page
+{% endblock %}
+
+{% block body %}
+    <h1>Creating Registration page</h1>
+    <div class="row">
+    <form action="/form" method="post">
+        <label for="Name"><b>Name</b></label>
+        <input type="text" placeholder="enter name"  Name="Name" required>
+        <label for="password"><b>password</b></label>
+        <input type="password" placeholder="enter password" name="password" required>
+        <label for="repeat-password"><b>repeat password</b></label>
+        <input type="password" placeholder="reenter password" name="password" required>>
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="enter email"  name="email" required>
+        <div class="col-sm">
+            <label for="gender"><b>gender</b></label>
+            <label for="female"><b>female</b></label>
+                <input type="radio" id="female" name="gender" value="female">
+            <label for="male"><b>male</b></label>
+                <input type="radio" id="male" name="gender" value="male">
+            <label for="others"><b>others</b></label>
+                <input type="radio" id="others" name="gender" value="others">
+        </div>
+        <input type="number" placeholder="enter age" name="age" required>
+        <label for="birthday"><b>birthday</b></label>
+            <input type="date" id="birthday" name="birthday" required>
+        <button class="button" type="submit">submit</button>
+    </form>
+    </div>
+{% endblock %}
