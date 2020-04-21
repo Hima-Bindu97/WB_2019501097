@@ -32,6 +32,8 @@ def index():
     return render_template("login.html",text="welcome to home page"+session.get("email"))
 @app.route("/Register", methods = ['POST', 'GET'])
 def form():
+    if session.get("email") is not None:
+        return render_template("login.html",text="welcome to home page"+session.get("email"))
     db.create_all()
     if request.method =='POST':
         udata=data(request.form['Name'],request.form['email'],request.form['password'])

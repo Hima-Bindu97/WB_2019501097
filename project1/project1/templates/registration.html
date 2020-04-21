@@ -1,14 +1,27 @@
 {% extends "layout.html"%}
 
 {% block heading %} 
-    Registration page
+    <h1 text-align="center">Registration page</h1>
+    <style type="text/css">
+        .form{
+            margin: 0 auto;
+            width:210px;
+        }
+        .form label{
+            display:inline-block;
+            text align=center;
+        }
+        .form input{
+            display:inline-block;
+            text align=center;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    <h1>Creating Registration page</h1>
-    <div class="row">
+    <div class="form">
     <form action="{{url_for('form')}}" method="post">
-        <label for="Name"><b>Name</b></label>
+        <label style="text-align:center" for="Name"><b>Name</b></label>
         <input type="text" placeholder="enter name"  Name="Name" required><br><br>
         <label for="password"><b>password</b></label>
         <input type="password" placeholder="enter password" name="password" required><br><br>
@@ -23,10 +36,7 @@
             <label for="others"><b>others</b></label>
                 <input id="others" type="radio"name="gender" value="others"><br>
         </div><br>
-        <input type="number" placeholder="enter age" name="age" required><br><br>
-        <label for="birthday"><b>birthday</b></label>
-            <input type="date" id="birthday" name="birthday" required><br>
-        <button class="button" type="submit"><br>submit</button><br><br>
+        <h1 align="center"><button class="button" type="submit"><br>submit</button><br></h1>
         <button type="submit" class="button" formaction='/auth'>LOGIN</button>
     </form>
     {% if variable1 %}
