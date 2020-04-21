@@ -5,7 +5,9 @@ from flask import Flask, session,render_template, request,redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import logging
 
+logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -21,8 +23,8 @@ db.init_app(app)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
-Session = scoped_session(sessionmaker(bind=engine))
-session=Session()
+# Session = scoped_session(sessionmaker(bind=engine))
+# session=Session()
 @app.route("/")
 def index():
     return "project 1:TODO"
@@ -33,8 +35,7 @@ def form():
         udata=data(request.form['Name'],request.form['email'],request.form['password'])
         userd=data.query.filter_by(email=request.form['email']).first()
         if userd is not None:
-            variable='Email already exists!! try again'
-            return render_template("registration.html",variable=variable)
+            return render_template("registration.html")
         db.session.add(udata)
         db.session.commit()
         print("Sucesssfully Registered")
@@ -46,4 +47,30 @@ def form():
 def admin():
     usersinfo = data.query.all()
     return render_template("admins.html",admin = usersinfo)
- 
+@app.route('/auth', methods=['POST','GET'])
+def auth():
+    print(request.form)
+    user=data.query.filter_by(email=request.form['email']).first()
+    if user is not None:
+        if request.form['password']==user.password:
+            session['email'] = request.form['email']
+            print(session)
+            return redirect('/home')
+        else:
+            variable1 = "Wrong Credentials"
+            return render_template("registration.html", variable1 = variable1)
+    else:
+        print("You are not a registered user. Please first register to login")
+        variable1 = "Error: You are not a registered user. Please first register to login"
+        return render_template("registration.html", variable1 = variable1)
+@app.route('/home')
+def home():
+        user=session['email']
+        return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    user=session['email']
+    session.clear()
+    variable1 = "Logged Out"
+    return render_template("registration.html", variable1 = variable1)
