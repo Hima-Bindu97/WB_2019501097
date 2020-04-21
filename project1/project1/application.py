@@ -23,21 +23,23 @@ db.init_app(app)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
-# Session = scoped_session(sessionmaker(bind=engine))
-# session=Session()
+Session = scoped_session(sessionmaker(bind=engine))
+# session=db()
 @app.route("/")
 def index():
-    return "project 1:TODO"
+    if session.get("email") is None:
+        return render_template("registration.html",text="please fill the details")
+    return render_template("login.html",text="welcome to home page"+session.get("email"))
 @app.route("/Register", methods = ['POST', 'GET'])
 def form():
     db.create_all()
     if request.method =='POST':
         udata=data(request.form['Name'],request.form['email'],request.form['password'])
-        userd=data.query.filter_by(email=request.form['email']).first()
+        userd=data.query.filter_by(email=request.form['email'])
         if userd is not None:
             return render_template("registration.html")
-        db.session.add(udata)
-        db.session.commit()
+        session.add(udata)
+        session.commit()
         print("Sucesssfully Registered")
         variable1='Registration Successful'
         return render_template("registration.html",variable1=variable1)
@@ -49,11 +51,11 @@ def admin():
     return render_template("admins.html",admin = usersinfo)
 @app.route('/auth', methods=['POST','GET'])
 def auth():
-    print(request.form)
     user=data.query.filter_by(email=request.form['email']).first()
     if user is not None:
         if request.form['password']==user.password:
             session['email'] = request.form['email']
+            session['Name']=request.form['Name']
             print(session)
             return redirect('/home')
         else:
