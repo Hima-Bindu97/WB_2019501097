@@ -1,34 +1,58 @@
 {% extends "layout.html"%}
 
 {% block heading %} 
-    Registration page
+    <h1 text-align="center">Registration page</h1>
+    <style type="text/css">
+        .form{
+            margin: 0 auto;
+            width:210px;
+        }
+        .form label{
+            display:inline-block;
+            text align=center;
+        }
+        .form input{
+            display:inline-block;
+            text align=center;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    <h1>Creating Registration page</h1>
-    <div class="row">
-    <form action="/form" method="post">
-        <label for="Name"><b>Name</b></label>
-        <input type="text" placeholder="enter name"  Name="Name" required>
+    <div class="form">
+    <form action="{{url_for('form')}}" method="post">
+        <label style="text-align:center" for="Name"><b>Name</b></label>
+        <input type="text" placeholder="enter name"  Name="Name" required><br><br>
         <label for="password"><b>password</b></label>
-        <input type="password" placeholder="enter password" name="password" required>
-        <label for="repeat-password"><b>repeat password</b></label>
-        <input type="password" placeholder="reenter password" name="password" required>>
-        <label for="email"><b>Email</b></label>
-        <input type="text" placeholder="enter email"  name="email" required>
+        <input type="password" placeholder="enter password" name="password" required><br><br>
+        <label for="email"><b>email</b></label>
+        <input type="text" placeholder="enter email"  name="email" required><br><br>
         <div class="col-sm">
-            <label for="gender"><b>gender</b></label>
+            <label for="gender"><b>gender</b></label><br>
             <label for="female"><b>female</b></label>
-                <input type="radio" id="female" name="gender" value="female">
+                <input id="female" type="radio"name="gender" value="female"><br>
             <label for="male"><b>male</b></label>
-                <input type="radio" id="male" name="gender" value="male">
+                <input id="male" type="radio"name="gender" value="male"><br>
             <label for="others"><b>others</b></label>
-                <input type="radio" id="others" name="gender" value="others">
-        </div>
-        <input type="number" placeholder="enter age" name="age" required>
-        <label for="birthday"><b>birthday</b></label>
-            <input type="date" id="birthday" name="birthday" required>
-        <button class="button" type="submit">submit</button>
+                <input id="others" type="radio"name="gender" value="others"><br>
+        </div><br>
+        <button class="button" type="submit"><br>submit</button><br><br>
+        <button type="submit" class="button" formaction='/auth'>LOGIN</button>
     </form>
+    {% if variable1 %}
+        <div class ="row" style="text-align: center;">
+        <div class="alert-alert-success.alert-dismissibe">
+        {{variable1}}
+        </div>
+        </div>
+        {% endif %}
+        {% if variable %}
+        <div class ="row" style="text-align: center;">
+        <div class="alert-alert-danger.alert-dismissibe">
+        {{variable}}
+        </div>
+        </div>
+        {% endif %}
+    </div>
     </div>
 {% endblock %}
