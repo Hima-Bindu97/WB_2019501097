@@ -5,9 +5,7 @@ from flask import Flask, session,render_template, request,redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-import logging
 
-logging.basicConfig(level=logging.DEBUG)
 app = Flask(__name__)
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -20,22 +18,23 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 db.init_app(app)
-
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 Session = scoped_session(sessionmaker(bind=engine))
 # session=db()
 @app.route("/")
 def index():
-    if session.get("email") is None:
-        return render_template("registration.html",text="please fill the details")
-    return render_template("login.html",text="welcome to home page"+session.get("email"))
+    if session.get("Name") is not None:
+        return render_template("login.html",text="please fill the details")
+    return redirect("/Register")
 @app.route("/Register", methods = ['POST', 'GET'])
 def form():
-    if session.get("email") is not None:
-        return render_template("login.html",text="welcome to home page"+session.get("email"))
+    if session.get("Name") is not None:
+        return render_template("login.html",text="welcome to home page"+session.get("Name"))
     db.create_all()
-    if request.method =='POST':
+    if request.method =='GET':
+        return render_template("registration.html")
+    else:
         udata=data(request.form['Name'],request.form['email'],request.form['password'])
         userd=data.query.filter_by(email=request.form['email'])
         if userd is not None:
@@ -45,36 +44,34 @@ def form():
         print("Sucesssfully Registered")
         variable1='Registration Successful'
         return render_template("registration.html",variable1=variable1)
-    else:
-        return render_template("registration.html")
-@app.route('/admins')
+        
+@app.route('/admins',methods=['GET'])
 def admin():
     usersinfo = data.query.all()
     return render_template("admins.html",admin = usersinfo)
-@app.route('/auth', methods=['POST','GET'])
+@app.route('/auth', methods=['POST'])
 def auth():
-    user=data.query.filter_by(email=request.form['email']).first()
-    if user is not None:
-        if request.form['password']==user.password:
-            session['email'] = request.form['email']
-            session['Name']=request.form['Name']
-            print(session)
-            return redirect('/home')
+    if request.method=="POST":
+        user=data.query.filter_by(email=request.form['email']).first()
+        if user is not None:
+            if request.form['password']==user.password:
+                session['email'] = request.form['email']
+                session['Name']=request.form['Name']
+                print(session)
+                return redirect('login.html')
+            else:
+                variable1 = "Wrong Credentials"
+                return render_template("registration.html", variable1 = variable1)
         else:
-            variable1 = "Wrong Credentials"
+            print("You are not a registered user. Please first register to login")
+            variable1 = "Error: You are not a registered user. Please first register to login"
             return render_template("registration.html", variable1 = variable1)
-    else:
-        print("You are not a registered user. Please first register to login")
-        variable1 = "Error: You are not a registered user. Please first register to login"
-        return render_template("registration.html", variable1 = variable1)
 @app.route('/home')
 def home():
-        user=session['email']
         return render_template("login.html")
 
-@app.route('/logout')
+@app.route('/logout',methods=["GET"])
 def logout():
-    user=session['email']
     session.clear()
     variable1 = "Logged Out"
     return render_template("registration.html", variable1 = variable1)

@@ -1,26 +1,54 @@
-{% extends "layout.html"%}
-
-{% block heading %} 
-    <h1 text-align="center">Registration page</h1>
-    <style type="text/css">
-        .form{
-            margin: 0 auto;
-            width:210px;
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Registration page</title>
+    </head>
+    <script type="text/javascript">
+        function password(str)
+        {
+        var password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        return password.test(str);
         }
-        .form label{
-            display:inline-block;
-            text align=center;
+        function email(email) 
+        {
+        if (/^\w+([\.-]?\w+)@\w+([\.-]?\w+)(\.\w{2,3})+$/.test(email))
+          {
+            return true;
+          }
+            return false;
         }
-        .form input{
-            display:inline-block;
-            text align=center;
+        function checkForm(form)
+        {
+            if(form.Name.value == "") {
+                document.getElementById("text").innerHTML="Enter Username";
+            return false;
+            }
+            if(form.email.value == "") {
+                document.getElementById("text").innerHTML="Enter valid mail";
+            return false;
+            }
+            else if(!email(form.email.value)) {
+              document.getElementById("text").innerHTML="Enter valid mail address";
+              return false;
+            } else {
+              if(form.password.value != "") {
+                        if(!password(form.password.value)) {
+                            document.getElementById("text").innerHTML="password should have capital letters,small letters,numbers,special charecters";
+                        return false;
+                        }
+            }
+            else {
+                document.getElementById("text").innerHTML="enter password";
+                return false;
+                 }
+            }
+            return true;
         }
-    </style>
-{% endblock %}
-
-{% block body %}
+       </script>
+    <body>
+    <center>
     <div class="form">
-    <form action="{{url_for('form')}}" method="post">
+    <form action="{{url_for('form')}}" method="post" onsubmit="return checkForm(this);">
         <label style="text-align:center" for="Name"><b>Name</b></label>
         <input type="text" placeholder="enter name"  Name="Name" required><br><br>
         <label for="password"><b>password</b></label>
@@ -54,5 +82,5 @@
         </div>
         {% endif %}
     </div>
-    </div>
-{% endblock %}
+    </body>
+</html>
